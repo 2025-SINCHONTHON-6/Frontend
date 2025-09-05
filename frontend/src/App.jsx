@@ -10,18 +10,20 @@ import RecommendationResult from './pages/recommend/recommendResult';
 import Mypage from './pages/mypage/mypage';
 
 import Intro from './pages/auth/intro';
-import Signup from './pages/auth/signup';
+
+const INTRO_SEEN_KEY = 'intro:seen';
+function RootGate() {
+  const seen = typeof window !== 'undefined' && sessionStorage.getItem(INTRO_SEEN_KEY);
+  return seen ? <Home /> : <Navigate to="/intro" replace />;
+}
 
 function App() {
   return (
     <Routes>
-    
       <Route path="/intro" element={<Intro />} />
-      <Route path="/signup" element={<Signup />} />
 
-     
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />} />
+        <Route index element={<RootGate />} />
         <Route path="record" element={<Record />} />
         <Route path="record/write" element={<RecordWrite />} />
         <Route path="record/detail" element={<RecordDetail />} />
@@ -30,7 +32,6 @@ function App() {
         <Route path="mypage" element={<Mypage />} />
       </Route>
 
-    
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
