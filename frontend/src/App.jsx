@@ -27,6 +27,7 @@ function App() {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<RootGate />} />
         <Route path="mypage" element={<Mypage />} />
+
         <Route index element={<Home />} />
         <Route path="/record" element={<Record />} />
         <Route path="/record/write" element={<RecordWrite />} />

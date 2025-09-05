@@ -221,5 +221,5 @@ export default function RecordWrite() {
     );
   }
 
-  
+
 }

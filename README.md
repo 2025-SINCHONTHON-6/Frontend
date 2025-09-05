@@ -1,122 +1,142 @@
-감정 기반 차(Tea) 추천 및 기록 서비스 TeaBTI
-Vite + React + Tailwind 기반으로, 감정을 바탕으로 차 추천 / 기록 / 마이페이지 기능을 제공합니다.
+<p align="center"> </p> 
+<h1 align="center"> 🍵 TeaBTI – 오늘, 내 기분을 닮은 차 한 모금 <br /> <sub>Frontend</sub> </h1> 
+<h3 align="center">React (JSX) + TailwindCSS 기반 감정 맞춤 차 추천 · 기록 서비스</h3>
+<p align="center"> 
+ 
+<p align="center"> <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=000&style=for-the-badge"/> <img src="https://img.shields.io/badge/Vite-^5-646CFF?logo=vite&logoColor=fff&style=for-the-badge"/> <img src="https://img.shields.io/badge/TailwindCSS-^3-06B6D4?logo=tailwindcss&logoColor=fff&style=for-the-badge"/> <img src="https://img.shields.io/badge/React%20Router-v6-CA4245?logo=reactrouter&logoColor=fff&style=for-the-badge"/> <img src="https://img.shields.io/badge/Framer%20Motion-Animation-000?logo=framer&logoColor=fff&style=for-the-badge"/> </p>
 
-✨ 서비스 소개
 
-온보딩 플로우: 로컬 저장소에 유저가 없으면 인트로(1.5초) → 홈 진입
+## 📖 프로젝트 개요
 
-홈: 추천 탭(RecommendTab), 기록 탭(RecordTab) 노출
+**TeaBTI**는 차에 입문하는 사람들이 ‘오늘의 기분’에 맞춰 차를 탐색하고 즐길 수 있도록 설계된 모바일 웹 서비스입니다. 감정 기반 추천, 간편 기록, 단계별 챌린지를 통해 취향을 발견하고 일상을 지속 가능한 티 루틴을 만들어드립니다.
 
-기록: 작성/상세/목록 페이지
+### 🎯 프로젝트 목표
 
-마이페이지: 이름/챌린지 달성율/내 정보/ 차 관련 가이드/기록 관리
+- 감정 기반 맞춤 추천으로 자연스러운 차 입문을 돕습니다.
+- 간편한 기록·리뷰 기능으로 사용 경험을 꾸준히 이어갑니다.
+- 챌린지·루틴을 통해 참여를 유지하고 습관 형성을 유도합니다.
 
-추천: 기분 선택 등(MoodPick) 인터랙션
+---
 
-🧰 기술 스택
 
-Framework: React 18, React Router v6
+## 🌟 주요 기능
 
-Build: Vite
+### 🏠 메인 페이지
 
-UI: Tailwind CSS
+- **감정 기반 차 추천탭**: 오늘의 감정 맞춤 차 추천 페이지 이동 버튼 구현
+- **이전 기록 요약 UI**: 감정 맞춤 차 추천 기록을 날짜와 함께 요약한 탭
 
-Animation: Framer Motion
+### 🧾기록 페이지
 
-Lint/Format: ESLint, Prettier
+- **감정과 날짜 요약 UI**: 이전에 추천받았던 기록을 감정의 색과 날짜로 요약
+- **기록 상세 페이지**: 기록 요약 UI 클릭 시 그날에 추천받았던 차와 감정 및 기록 열람 가능, 추천 받은 차에 대한 기록 설정 가능
+- **나의 차 챌린지**: 챌린지 달성 여부 파악
 
-State/Persist: React Hooks + localStorage
+### 👍추천 페이지
 
-👥 팀원 소개
-이름	역할	GitHub/연락처
-문금미	기록페이지	rmaal520@gmail.com
-문금미	FE	@your-id
+- **감정 선택 UI**: 감정을 6가지로 구분하여 그날의 감정 선택 유도
+- **개인 맞춤 차 선호도 조사**: 차 관련 카테고리 선택을 통한 선호도 조사
+- **감정 맞춤 차 추천 탭**: 차 이미지와 이름, 향, 설명 제공 -> 마셔볼래요 선택시 기록 연결
 
-팀원 표는 자유롭게 수정하세요.
 
-🗂 폴더 구조
-frontend/
-├─ public/
-│  ├─ img/
-│  └─ svg/
-├─ src/
-│  ├─ assets/
-│  ├─ components/
-│  │  ├─ common/
-│  │  ├─ home/
-│  │  ├─ mypage/
-│  │  │  └─ profile.jsx
-│  │  └─ record/
-│  ├─ constants/
-│  ├─ data/
-│  ├─ layouts/
-│  ├─ pages/
-│  │  ├─ auth/        # Intro, Signup
-│  │  ├─ home/
-│  │  ├─ mypage/
-│  │  ├─ recommend/   # MoodPick
-│  │  └─ record/      # list/write/detail
-│  ├─ App.jsx
-│  ├─ index.css
-│  └─ main.jsx
-├─ eslint.config.js
-├─ jsconfig.json
-├─ postcss.config.js
-├─ tailwind.config.js
-├─ vite.config.js
-├─ package.json
-└─ README.md
 
-🚀 실행 방법
+## 🛠️ 기술 스택
+
+### Frontend
+
+- **React 18(jsx)**: React 기능 활용
+- **TailwindCSS**: 유틸리티 퍼스트 CSS 프레임워크
+- **react-router-dom v6**:동적 라우팅 & 가드
+
+### UI/UX
+
+- **Framer Motion**: 애니메이션 라이브러리
+
+### 개발 도구
+
+- **Prettier**: 코드 품질 관리
+
+## 🚀 시작하기
 요구 사항
 
-Node.js 18+ (권장 18/20)
+Node.js 18+ / 20+
 
-설치 & 로컬 실행
-# 패키지 설치
+npm / yarn / pnpm 중 택 1
+
+설치 & 실행
+### 의존성 설치
 npm install
 
-# 개발 서버
+### 개발 서버
 npm run dev
 
-# 프로덕션 빌드
+### 프로덕션 빌드
 npm run build
 
-# 빌드 미리보기
+### 빌드 미리보기
 npm run preview
 
-🔑 라우팅 개요
+## 🏗️ 프로젝트 구조
 
-/intro : 인트로(2초 후 /signup로 이동)
+```
+src/
+├─ layouts/
+│  └─ mainLayout.jsx
+├─ pages/
+│  ├─ auth/
+│  │  └─ intro.jsx
+│  ├─ home/
+│  │  └─ home.jsx
+│  ├─ record/
+│  │  ├─ record.jsx
+│  │  ├─ recordWrite.jsx
+│  │  └─ recordDetail.jsx
+│  ├─ recommend/
+│  │  ├─ moodPick.jsx
+│  │  └─ recommendResult.jsx
+│  └─ mypage/
+│     └─ mypage.jsx
+├─ components/
+│  └─ home/
+│     ├─ recommendTab.jsx
+│     └─ recordTab.jsx
+├─ assets/ (svg, images)
+└─ index.css
+```
 
-/signup : 이름/이메일 입력 → 제출 시 같은 페이지에서 “가입완료”(3초) → /
+---
 
-/ : 메인(Home). localStorage에 유저가 없으면 게이트에서 /intro로 리다이렉트
 
-/record, /record/write, /record/detail
 
-/recommend/moodpick, /mypage
+## 🎨 UI 가이드 (Tailwind)
 
-게이트 키: user:profile
+모바일 기준 레이아웃: max-w-[390px] 컨테이너, 세로 스크롤
 
-💾 데이터 모델(로컬)
-// localStorage key: "user:profile"
-{
-  "id": "uuid",
-  "name": "홍길동",
-  "email": "hong@example.com",
-  "photo": "data:... 또는 이미지 URL(없으면 null)",
-  "achieved": 0
-}
+재사용 패턴: 카드(rounded-[30px]), 버튼(rounded-[20px], 고대비 텍스트)
 
-🧩 개발 메모
+접근성: 링크를 버튼처럼 보일 때는 Link/NavLink에 클래스 부여 (버튼 요소 안에 링크 중첩 지양)
 
-Tailwind 사용: index.css에 @tailwind base; @tailwind components; @tailwind utilities;
+---
 
-경로 별칭 @ 사용 시 vite.config.js / jsconfig.json의 alias 확인
+## 👥 개발 팀
 
-선택적으로 framer-motion 사용 시 react 17+ 필요
+### 📋 PM & 디자인
 
-📦 배포(옵션)
+- **강채원** (홍익대학교)
 
-Vercel/Netlify 등 정적 호스팅에 npm run build 산출물(dist/) 업로드
+### 💻 프론트엔드
+
+- **문금미** (서강대학교)
+- **안준석** (홍익대학교)
+- **이지호** (연세대학교)
+
+### 🔧 백엔드
+
+- **고선태** (연세대학교)
+- **설영은** (이화여자대학교)
+- **황규리** (이화여자대학교)
+
+---
+
+
+
