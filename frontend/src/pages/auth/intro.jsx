@@ -5,11 +5,7 @@ export default function Intro() {
   const nav = useNavigate();
 
   useEffect(() => {
-    
-    const saved = localStorage.getItem("user:profile");
-    if (saved) return nav("/", { replace: true });
-
-    const t = setTimeout(() => nav("/signup", { replace: true }), 2000);
+    const t = setTimeout(() => nav("/signup", { replace: true }), 1500);
     return () => clearTimeout(t);
   }, [nav]);
 
