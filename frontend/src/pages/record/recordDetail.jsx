@@ -1,10 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import teaDum from '../../../public/img/blackTea_1.jpg'
 import good_green from '../../../public/svg/good_green.svg'
 
 export default function RecordDetail() {
   const navigate = useNavigate();
+
+    const [teaInfo, setTeaInfo] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+  
+    useEffect(() => {
+      async function fetchTea() {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/challenges/records/daily/?created_at=${date}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem(
+                  "accessToken"
+                )}`,
+              },
+            }
+          );
+  
+          if (!response.ok) {
+            throw new Error("something went wrong");
+          }
+          const data = await response.json();
+          setCurrentTea(data);
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        }finally{
+          setIsLoading(false);
+        }
+      }
+      fetchTea();
+    }, []);
+  
+    if (isLoading) {
+      return (
+        <div className="min-h-[100dvh] w-auto bg-black flex justify-center">
+        <main className="relative w-full max-w-[390px] pl-[20px] pr-[20px] items-center bg-white">
+          <div className='flex flex-col items-center gap-[20px]'>
+              <Outlet />
+              <h3>loading...</h3>
+          </div>
+          </main>
+        </div>
+      )
+    }
+  
+  const teaImageSource = teaImageMap[currentTea];
+
+
+
   return (
     <div className="min-h-[100dvh] w-auto bg-black flex justify-center">
       <main className="relative w-full max-w-[390px] bg-white">
@@ -14,9 +65,10 @@ export default function RecordDetail() {
           <div className='flex w-[100%]'>
             <div>
               <h4 className='text-main-300 text-[17px] font-[600] mb-1'>감상 기록</h4>
-              <h1 className='text-black text-[24px] font-[300]'>2025년 9월 6일</h1>
+              <h1 className='text-black text-[24px] font-[300]'>{teaInfo.created_at}</h1>
             </div>
-            <img src="" alt="" />
+            {teaImageSource && <img src={teaImageSource} alt={currentTea} className='w-[150px] h-[150px] border-none rounded-[19px]' />}
+            {!teaImageSource && <p>이미지 없음</p>}
           </div>
           
           <div className="flex-col items-center justify-center w-[100%] h-auto p-[30px] rounded-[30px] bg-main-100 ">

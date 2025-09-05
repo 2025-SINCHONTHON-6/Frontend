@@ -7,7 +7,6 @@ import RecordDetail from './pages/record/recordDetail';
 import RecordWrite from './pages/record/recordWrite';
 import MoodPick from './pages/recommend/moodPick';
 import RecommendationResult from './pages/recommend/recommendResult';
-import ChallengeStatus from './pages/record/challengeStatus';
 import Mypage from './pages/mypage/mypage';
 
 import Intro from './pages/auth/intro';
@@ -23,21 +22,17 @@ function App() {
     <Routes>
       <Route path="/intro" element={<Intro />} />
 
-      <Route path="/" element={<MainLayout />} >
-
-        <Route index element={<Home />} />
+      <Route path="/" element={<MainLayout />}>
         <Route index element={<RootGate />} />
-        <Route path="/record" element={<Record />} />
-        <Route path="/record/write" element={<RecordWrite />} />
-        <Route path="/record/detail" element={<RecordDetail />} />
-        <Route path="/record/status" element={<ChallengeStatus />} />
-        <Route path="/recommend/moodpick" element={<MoodPick />} />
-        <Route path="/recommend/result" element={<RecommendationResult />} />
+        <Route path="record" element={<Record />} />
+        <Route path="record/write" element={<RecordWrite />} />
+        <Route path="record/detail" element={<RecordDetail />} />
+        <Route path="recommend/moodpick" element={<MoodPick />} />
+        <Route path="recommend/result" element={<RecommendationResult />} />
         <Route path="mypage" element={<Mypage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
-
     </Routes>
   );
 }
