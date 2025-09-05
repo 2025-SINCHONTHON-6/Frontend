@@ -13,9 +13,11 @@ import Intro from './pages/auth/intro';
 
 const INTRO_SEEN_KEY = 'intro:seen';
 function RootGate() {
-  const seen = typeof window !== 'undefined' && sessionStorage.getItem(INTRO_SEEN_KEY);
+  const seen =
+    typeof window !== 'undefined' && sessionStorage.getItem(INTRO_SEEN_KEY);
   return seen ? <Home /> : <Navigate to="/intro" replace />;
 }
+import ChallengeStatus from './pages/record/challengeStatus';
 
 function App() {
   return (
@@ -24,12 +26,15 @@ function App() {
 
       <Route path="/" element={<MainLayout />}>
         <Route index element={<RootGate />} />
-        <Route path="record" element={<Record />} />
-        <Route path="record/write" element={<RecordWrite />} />
-        <Route path="record/detail" element={<RecordDetail />} />
-        <Route path="recommend/moodpick" element={<MoodPick />} />
-        <Route path="recommend/result" element={<RecommendationResult />} />
         <Route path="mypage" element={<Mypage />} />
+        <Route index element={<Home />} />
+        <Route path="/record" element={<Record />} />
+        <Route path="/record/write" element={<RecordWrite />} />
+        <Route path="/record/detail" element={<RecordDetail />} />
+        <Route path="/record/status" element={<ChallengeStatus />} />
+        <Route path="/recommend/moodpick" element={<MoodPick />} />
+        <Route path="/recommend/result" element={<RecommendationResult />} />
+        {/* 페이지들 */}
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
