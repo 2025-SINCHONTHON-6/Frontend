@@ -108,7 +108,7 @@ src/
 
 
 
-🎨 UI 가이드 (Tailwind)
+## 🎨 UI 가이드 (Tailwind)
 
 모바일 기준 레이아웃: max-w-[390px] 컨테이너, 세로 스크롤
 
@@ -137,16 +137,6 @@ src/
 - **황규리** (이화여자대학교)
 
 ---
-## 🚀 배포
 
-### Vercel 배포
-
-```bash
-# Vercel CLI 설치
-npm i -g vercel
-
-# 배포
-vercel --prod
-```
 
 
