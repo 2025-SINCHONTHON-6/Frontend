@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 export default function RecommendTab() {
   return (
     <div className="flex flex-col justify-center bg-main-100 rounded-[30px] px-7 py-5 mb-10">
-      <div className="flex justify-start items-start text-[24px] font-normal">
+      <div className="flex justify-start items-start text-[22px] text-center font-normal">
         <p>
           오늘의 <strong>차추천</strong>
           <br />
