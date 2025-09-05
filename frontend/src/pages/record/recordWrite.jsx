@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import teaDum from '../../../public/img/blackTea_1.jpg'
+import good_green from '../../../public/svg/good_green.svg'
+import good_grey from '../../../public/svg/good_grey.svg'
+import soso_green from '../../../public/svg/soso_green.svg'
+import soso_grey from '../../../public/svg/soso_grey.svg'
+import bad_green from '../../../public/svg/bad_green.svg'
+import bad_grey from '../../../public/svg/bad_grey.svg'
+
 
 
 export default function RecordWrite() {
   const [reviewSelect, setReviewSelect] = useState("");
-  const reviewStates = ["좋았어요", "그저그럼", "별로예요"];
+  const reviewStates = [
+    { name: "좋았어요", icon_on: good_green, icon_off: good_grey, id: "good" },
+    { name: "그냥그럼", icon: soso, id: "soso" },
+    { name: "별로예요", icon: bad, id: "bad" },
+  ];
 
   return (
-    <div className="min-h-[100dvh] w-screen bg-black flex justify-center">
+    <div className="min-h-[100dvh] w-auto bg-black flex justify-center">
       <main className="relative w-full max-w-[390px] bg-white">
-        <div className='flex flex-col mt-[107px] items-center gap-[20px] m-[20px]'>
+        <div className='flex flex-col items-center gap-[20px] pl-[20px] pr-[20px]'>
             <Outlet />
 
             <div className="flex-col items-center justify-center w-[100%] h-auto p-[30px] mb-[15px] rounded-[30px] bg-main-100 ">
@@ -26,8 +37,8 @@ export default function RecordWrite() {
                 </div>
             </div>
 
-            <div className='flex flex-col items-start justify-start w-[100%] gap-4'>
-              <h4 className='text-[16px] font-[700]'> 차에 대한 감상은 어떠셨나요?</h4>
+            <div className='flex flex-col items-start justify-center w-[100%] gap-4'>
+              <h4 className='text-main-300 text-[16px] font-[700]'> 차에 대한 감상은 어떠셨나요?</h4>
               <div className='flex gap-3 w-[100%] justify-around'>
                 {reviewStates.map((reviewState) => (
                   <button key={reviewState} className='' onClick={()=>setReviewSelect(reviewState)}>
