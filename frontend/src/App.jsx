@@ -23,7 +23,7 @@ function App() {
     <Routes>
       <Route path="/intro" element={<Intro />} />
 
-      <Route path="/" element={<MainLayout />} />
+      <Route path="/" element={<MainLayout />} >
 
         <Route index element={<Home />} />
         <Route index element={<RootGate />} />
@@ -34,8 +34,10 @@ function App() {
         <Route path="/recommend/moodpick" element={<MoodPick />} />
         <Route path="/recommend/result" element={<RecommendationResult />} />
         <Route path="mypage" element={<Mypage />} />
+      </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
+
     </Routes>
   );
 }
