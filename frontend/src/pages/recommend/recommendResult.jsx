@@ -105,7 +105,9 @@ export default function TeaRecommendation() {
     }
   };
 
-  const handleLike = async () => {};
+  const handleLike = async () => {
+    navigate('/record');
+  };
 
   return (
     <div className="mt-5 mx-5">
