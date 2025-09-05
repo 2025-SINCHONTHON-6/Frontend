@@ -7,6 +7,7 @@ import Sad from '../../assets/recommend/Sad.svg?react';
 import Suffer from '../../assets/recommend/Suffer.svg?react';
 import Comfort from '../../assets/recommend/Comfort.svg?react';
 import Tired from '../../assets/recommend/Tired.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 // 제목
 const titleVariants = {
@@ -47,6 +48,7 @@ const buttonVariants = {
 const MoodPick = () => {
   const [selectedEmotion, setSelectedEmotion] = useState(null);
   const [selectedTaste, setSelectedTaste] = useState(null);
+  const navigate = useNavigate();
 
   const emotionsData = [
     { name: '기쁨', Icon: Happy, color: 'bg-[#C0F1FF]' },
@@ -69,6 +71,7 @@ const MoodPick = () => {
   const handleNext = () => {
     if (selectedEmotion && selectedTaste) {
       alert(`선택한 감정: ${selectedEmotion}\n선택한 맛: ${selectedTaste}`);
+      navigate('/recommend/result');
     } else {
       alert('감정과 맛을 모두 선택해주세요.');
     }
