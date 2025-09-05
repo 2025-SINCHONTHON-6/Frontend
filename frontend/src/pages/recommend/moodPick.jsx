@@ -51,12 +51,12 @@ const MoodPick = () => {
   const navigate = useNavigate();
 
   const emotionsData = [
-    { name: '기쁨', Icon: Happy, color: 'bg-[#C0F1FF]' },
-    { name: '화남', Icon: Angry, color: 'bg-[#FFF0E5]' },
-    { name: '슬픔', Icon: Sad, color: 'bg-[#E0FFAF]' },
-    { name: '괴로운', Icon: Suffer, color: 'bg-[#E6E6E6]' },
-    { name: '편안한', Icon: Comfort, color: 'bg-[#FFE6AF]' },
-    { name: '피곤함', Icon: Tired, color: 'bg-[#FFC6AF]' },
+    { name: '기쁨', Icon: Happy, color: 'bg-emotion-100' },
+    { name: '화남', Icon: Angry, color: 'bg-emotion-200' },
+    { name: '슬픔', Icon: Sad, color: 'bg-emotion-300' },
+    { name: '괴로운', Icon: Suffer, color: 'bg-emotion-400' },
+    { name: '편안한', Icon: Comfort, color: 'bg-emotion-500' },
+    { name: '피곤함', Icon: Tired, color: 'bg-emotion-600' },
   ];
   const tastes = ['달달한', '과일', '꽃', '허브', '진한', '씁쓸한', '부드러운'];
 
