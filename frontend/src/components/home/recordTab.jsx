@@ -1,5 +1,6 @@
-import { useMemo, useRef, useState } from "react";
-import { recordData } from "@/data/record";
+import { useMemo, useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+// import { recordData } from "@/data/record"; // 이 코드는 더 이상 필요하지 않습니다.
 
 const PER_PAGE = 10;
 
@@ -21,16 +22,46 @@ function formatLabelDate(value) {
   const dt = parseYMD(value);
   if (!dt) return String(value ?? "");
   const y = dt.getFullYear();
-  const m = String(dt.getMonth() + 1).padStart(2, "0");
-  const d = String(dt.getDate()).padStart(2, "0");
+  const m = String(dt.getMonth() + 1);
+  const d = String(dt.getDate());
   return `${y}.${m}.${d}`;
 }
 
 export default function RecordTab() {
-  const pages = useMemo(() => chunk(recordData, PER_PAGE), []);
+  const [dates, setDates] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const pages = useMemo(() => chunk(dates, PER_PAGE), [dates]);
   const [page, setPage] = useState(0);
   const max = pages.length - 1;
 
+  useEffect(() => {
+    async function fetchDates() {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/challenges/logs/dates/`,
+          {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "accessToken"
+              )}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch dates");
+        }
+        const data = await response.json();
+        setDates(data); // API에서 받은 날짜 배열로 상태 업데이트
+      } catch (error) {
+        console.error("Error fetching dates:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchDates();
+  }, []);
 
   const startX = useRef(null);
   const onTouchStart = (e) => (startX.current = e.touches[0].clientX);
@@ -46,28 +77,33 @@ export default function RecordTab() {
   const items = pages[page] ?? [];
   const missing = Math.max(0, PER_PAGE - items.length);
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-20 text-gray-500">
+        <p>기록을 불러오는 중...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-3xl bg-[#FFFDE3] p-5">
       <div className="relative select-none" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-      
         <ul className="grid grid-cols-5 pb-5 gap-x-6 gap-y-7">
-          {items.map((item) => (
-            <li key={item.id} className="flex flex-col items-center">
-             
+          {items.map((item, index) => (
+            <li key={item + index} className="flex flex-col items-center">
+              <Link to={`/challenges/records/daily/?created_at=${item}`}>
               <div
                 className="w-10 rounded-full shadow-inner h-14"
-                style={{ backgroundColor: item.color }}
-                aria-label={formatLabelDate(item.date)}
-                title={formatLabelDate(item.date)}
+                style={{ backgroundColor: `hsl(${(index * 30 + 100) % 360}, 70%, 80%)` }} // 임의의 색상 할당
+                aria-label={formatLabelDate(item)}
+                title={formatLabelDate(item)}
               />
-           
               <span className="mt-2 text-[10px] text-gray-700">
-                {formatLabelDate(item.date)}
+                {formatLabelDate(item)}
               </span>
+              </Link>
             </li>
           ))}
-
-          
           {Array.from({ length: missing }).map((_, i) => (
             <li
               key={`ghost-${i}`}
@@ -75,12 +111,10 @@ export default function RecordTab() {
               aria-hidden="true"
             >
               <div className="w-10 rounded-full h-14" />
-              <span className="mt-2 block text-[10px]">0000.00.00</span>
+              <span className="mt-2 block text-[10px]">00.00.00</span>
             </li>
           ))}
         </ul>
-
-        {/* 페이지 네비 */}
         <div className="flex items-center justify-between mt-4">
           <button
             className="px-3 py-1 text-sm border rounded-xl disabled:opacity-40"
@@ -90,7 +124,7 @@ export default function RecordTab() {
             이전
           </button>
           <span className="text-xs text-gray-500">
-            {page + 1} / {pages.length}
+            {pages.length > 0 ? `${page + 1} / ${pages.length}` : '0 / 0'}
           </span>
           <button
             className="px-3 py-1 text-sm border rounded-xl disabled:opacity-40"

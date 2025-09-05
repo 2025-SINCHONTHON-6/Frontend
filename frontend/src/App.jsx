@@ -31,7 +31,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/record" element={<Record />} />
         <Route path="/record/write" element={<RecordWrite />} />
-        <Route path="/record/detail" element={<RecordDetail />} />
+        <Route path="/challenges/records/daily" element={<RecordDetail />} />
         <Route path="/record/status" element={<ChallengeStatus />} />
         <Route path="/recommend/moodpick" element={<MoodPick />} />
         <Route path="/recommend/result" element={<RecommendationResult />} />
