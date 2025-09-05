@@ -17,7 +17,7 @@ export default function Record() {
                 <div className='flex justify-between gap-2'>
                     <div className='flex-col'>
                         <h2 className='text-[24px] font-[700] mb-[50px]'>추천받은 차</h2>
-                        <h4 className='text-main-300 text-[16px] font-[700]'>피곤한 오늘에는!</h4>
+                        <h4 className='text-main-300 text-[16px] font-[700]'>오늘의 추천은</h4>
                         <h3 className='text-black text-[24px] font-[400]'>세작</h3>
                     </div>
                     <div className='w-[150px] flex items-center'>
