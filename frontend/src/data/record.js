@@ -1,0 +1,17 @@
+export const recordData = [
+  { id: "d01", date: "25.09.01", color: "#C0F1FF" }, 
+  { id: "d02", date: "25.09.02", color: "#F7E9FF" }, 
+  { id: "d03", date: "25.09.03", color: "#C0F1FF" },
+  { id: "d04", date: "25.09.04", color: "#F7E9FF" },
+  { id: "d05", date: "25.09.05", color: "#F7E9FF" },
+  { id: "d06", date: "25.09.06", color: "#FFC6AF" },
+  { id: "d07", date: "25.09.07", color: "#FFE6AF" },
+  { id: "d08", date: "25.09.08", color: "#FFE6AF" },
+  { id: "d09", date: "25.09.09", color: "#FFE6AF" },
+  { id: "d10", date: "25.09.10", color: "#E0FFAF" },
+  { id: "d11", date: "25.09.11", color: "#FFC6AF" },
+  { id: "d12", date: "25.09.12", color: "#E0FFAF" },
+  { id: "d13", date: "25.09.13", color: "#E0FFAF" },
+  { id: "d14", date: "25.09.14", color: "#E0FFAF" },
+  { id: "d15", date: "25.09.15", color: "#FFE6AF" },
+];
