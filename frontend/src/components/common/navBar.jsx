@@ -6,7 +6,7 @@ function NavItem({ to, label, icon, iconActive, end }) {
       {({ isActive }) => (
         <span
           className={[
-            "px-9 py-3 flex flex-col items-center justify-center rounded-full",
+            "w-[100px] h-[65px] flex flex-col items-center justify-center rounded-full",
        
             isActive ? "bg-main-100 text-main-300" : "text-black",
           ].join(" ")}
