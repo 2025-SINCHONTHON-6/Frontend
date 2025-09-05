@@ -48,30 +48,142 @@ const buttonVariants = {
 const MoodPick = () => {
   const [selectedEmotion, setSelectedEmotion] = useState(null);
   const [selectedTaste, setSelectedTaste] = useState(null);
+  const [moodRecommendations, setMoodRecommendations] = useState([]);
+  const [finalRecommendation, setFinalRecommendation] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const emotionsData = [
     { name: '기쁨', Icon: Happy, color: 'bg-[#C0F1FF]' },
     { name: '화남', Icon: Angry, color: 'bg-[#FFF0E5]' },
     { name: '슬픔', Icon: Sad, color: 'bg-[#E0FFAF]' },
-    { name: '괴로운', Icon: Suffer, color: 'bg-[#E6E6E6]' },
-    { name: '편안한', Icon: Comfort, color: 'bg-[#FFE6AF]' },
+    { name: '괴로움', Icon: Suffer, color: 'bg-[#E6E6E6]' },
+    { name: '편안함', Icon: Comfort, color: 'bg-[#FFE6AF]' },
     { name: '피곤함', Icon: Tired, color: 'bg-[#FFC6AF]' },
   ];
-  const tastes = ['달달한', '과일', '꽃', '허브', '진한', '씁쓸한', '부드러운'];
+  const tastes = ['달달한', '과일', '꽃', '허브', '진함', '씁쓸함', '부드러운'];
 
-  const handleEmotionSelect = (emotion) => {
+  // 감정 기반 추천 API 호출
+  const fetchMoodRecommendations = async (mood) => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_API_URL
+        }/recommendations/filter/mood/?mood=${mood}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('감정 기반 추천 데이터:', data);
+
+      if (
+        data &&
+        data.tastes &&
+        Array.isArray(data.tastes) &&
+        data.tastes.length > 0
+      ) {
+        setMoodRecommendations(data.tastes);
+        return data.tastes[0].id; // 첫 번째 taste 객체의 id 반환
+      } else {
+        console.warn('추천 데이터가 없습니다.');
+        return null;
+      }
+    } catch (error) {
+      console.error('감정 기반 추천 API 호출 실패:', error);
+      alert('추천 데이터를 가져오는데 실패했습니다. 다시 시도해주세요.');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 맛 기반 API 호출
+  const fetchTasteRecommendation = async (tasteId) => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_API_URL
+        }/recommendations/filter/taste/?taste_id=${tasteId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('맛 기반 최종 추천 데이터:', data);
+
+      if (data) {
+        setFinalRecommendation(data);
+        return data;
+      } else {
+        console.warn('최종 추천 데이터가 없습니다.');
+        return null;
+      }
+    } catch (error) {
+      console.error('맛 기반 추천 API 호출 실패:', error);
+      alert('최종 추천 데이터를 가져오는데 실패했습니다. 다시 시도해주세요.');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEmotionSelect = async (emotion) => {
     setSelectedEmotion(emotion);
+    setSelectedTaste(null); // 감정 변경 시 맛 선택 초기화
+
+    // 감정 선택 시 즉시 API 호출
+    const tasteId = await fetchMoodRecommendations(emotion);
+    if (tasteId) {
+      console.log('추출된 taste_id:', tasteId);
+    }
   };
 
   const handleTasteSelect = (taste) => {
     setSelectedTaste((prevTaste) => (prevTaste === taste ? null : taste));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (selectedEmotion && selectedTaste) {
-      alert(`선택한 감정: ${selectedEmotion}\n선택한 맛: ${selectedTaste}`);
-      navigate('/recommend/result');
+      if (moodRecommendations.length > 0) {
+        const tasteId = moodRecommendations[0].id;
+
+        // 두 번째 API 호출
+        const recommendation = await fetchTasteRecommendation(tasteId);
+        console.log(recommendation);
+
+        if (recommendation) {
+          // 추천 결과와 함께 다음 페이지로 이동
+          navigate('/recommend/result', {
+            state: {
+              selectedEmotion,
+              selectedTaste,
+              recommendation,
+              moodRecommendations, // tastes 배열이 저장됨
+            },
+          });
+        }
+      } else {
+        alert('추천 데이터가 없습니다. 감정을 다시 선택해주세요.');
+      }
     } else {
       alert('감정과 맛을 모두 선택해주세요.');
     }
@@ -79,6 +191,16 @@ const MoodPick = () => {
 
   return (
     <div className="mt-10 mx-5">
+      {/* 로딩 상태 표시 */}
+      {loading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 flex flex-col items-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-main-300 mb-4"></div>
+            <p className="text-lg font-medium">추천 데이터를 가져오는 중...</p>
+          </div>
+        </div>
+      )}
+
       {/* 제목 */}
       <motion.div
         key={selectedEmotion ? 'taste-question' : 'emotion-question'}
@@ -109,6 +231,7 @@ const MoodPick = () => {
               <div key={emotion.name} className="flex flex-col items-center">
                 <motion.button
                   onClick={() => handleEmotionSelect(emotion.name)}
+                  disabled={loading}
                   className={`
                     w-12 h-16 rounded-2xl flex items-center justify-center 
                     transition-all duration-300 border-2 
@@ -117,9 +240,10 @@ const MoodPick = () => {
                     ${
                       hasSelection && !isSelected ? 'opacity-50' : 'opacity-100'
                     }
+                    ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}
                   `}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={!loading ? { scale: 1.1 } : {}}
+                  whileTap={!loading ? { scale: 0.95 } : {}}
                 >
                   <emotion.Icon className="w-9 h-9" />
                 </motion.button>
@@ -140,7 +264,7 @@ const MoodPick = () => {
 
       {/* 맛 선택 */}
       <AnimatePresence>
-        {selectedEmotion && (
+        {selectedEmotion && !loading && (
           <motion.div
             className="mt-24"
             variants={tasteContainerVariants}
@@ -171,7 +295,7 @@ const MoodPick = () => {
       {/* 다음 버튼 */}
       <div className="mt-32">
         <AnimatePresence>
-          {selectedEmotion && selectedTaste && (
+          {selectedEmotion && selectedTaste && !loading && (
             <motion.div
               variants={buttonVariants}
               initial="hidden"
@@ -180,7 +304,7 @@ const MoodPick = () => {
             >
               <button
                 onClick={handleNext}
-                className="w-full h-16 rounded-2xl flex items-center justify-center bg-main-200"
+                className="w-full h-16 rounded-2xl flex items-center justify-center bg-main-200 hover:bg-main-300 transition-colors duration-200"
               >
                 <span className="font-bold text-2xl text-main-300">
                   다음으로
