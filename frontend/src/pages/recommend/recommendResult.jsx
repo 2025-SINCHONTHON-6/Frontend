@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { teaImageMap } from '@/constants/teaImageData';
 import Bear from '../../../public/svg/bear.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-// mock
+// mock - 실제로는 API에서 description을 받아올 수 있지만 fallback용
 const teaDescriptions = {
   우전: '잘 익은 생차는 변온맛이 사라지고 대추나 약재 같은 기분 좋은 단맛이 남니다.',
   용정차: '맑고 상쾌한 맛으로 봄의 기운을 느낄 수 있는 대표적인 녹차입니다.',
@@ -20,7 +20,7 @@ const teaDescriptions = {
   다즐링: '섬세한 향과 상쾌한 맛으로 홍차의 샴페인이라 불립니다.',
   우바: '진한 맛과 강한 향이 특징인 스리랑카산 홍차입니다.',
   아쌈: '진하고 몰티한 맛이 특징인 인도의 대표 홍차입니다.',
-  보이차: '깊고 진한 맛과 향이 특징인 중국의 전통 흑차입니다.',
+  '보이차(숙차)': '깊고 진한 맛과 향이 특징인 중국의 전통 흑차입니다.',
   육보차: '부드럽고 달콤한 맛이 특징인 광서성의 전통 흑차입니다.',
 };
 
@@ -40,26 +40,72 @@ const teaTags = {
   다즐링: ['섬세한', '상쾌한'],
   우바: ['진한', '강한'],
   아쌈: ['진한', '몰티한'],
-  보이차: ['깊은', '전통적인'],
+  '보이차(숙차)': ['깊은', '전통적인'],
   육보차: ['부드러운', '달달한'],
 };
 
 export default function TeaRecommendation() {
-  const [currentTea, setCurrentTea] = useState('우전'); // 추천받은 차
-  const [selectedEmotion] = useState('기쁨'); // 선택했던 감정
-  const [isRetrying, setIsRetrying] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // 재추천
-  const handleRetry = () => {
-    setIsRetrying(true);
-    setTimeout(() => {
+  // 이전 페이지에서 전달받은 데이터
+  const { recommendation } = location.state || {};
+
+  // API 응답에서 차 정보 추출
+  const teaInfo = recommendation?.tea || recommendation;
+  const currentTea = teaInfo?.name || '우전';
+  const teaDescription = teaInfo?.description || teaDescriptions[currentTea];
+  const teaTaste = teaInfo?.taste || '';
+
+  const [isRetrying, setIsRetrying] = useState(false);
+
+  console.log('전달받은 데이터:', location.state);
+  console.log('차 정보:', teaInfo);
+
+  // 재추천 API 호출
+  const handleRetry = async () => {
+    try {
+      setIsRetrying(true);
+
+      if (teaInfo?.taste_id) {
+        const response = await fetch(
+          `${
+            import.meta.env.VITE_API_URL
+          }/recommendations/filter/taste/?taste_id=${teaInfo.taste_id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (response.ok) {
+          const newRecommendation = await response.json();
+          console.log('재추천 데이터:', newRecommendation);
+
+          // 새로운 추천으로 페이지 업데이트 또는 다시 navigate
+          navigate('/recommend/result', {
+            state: {
+              recommendation: newRecommendation,
+            },
+            replace: true,
+          });
+        } else {
+          throw new Error('재추천 API 호출 실패');
+        }
+      } else {
+        alert('재추천을 위한 데이터가 없습니다.');
+      }
+    } catch (error) {
+      console.error('재추천 실패:', error);
+      alert('재추천에 실패했습니다. 다시 시도해주세요.');
+    } finally {
       setIsRetrying(false);
-    }, 1000);
+    }
   };
 
-  const handleLike = () => {
-    alert(`${currentTea}차 저장 완료!`);
+  const handleLike = async () => {
     navigate('/record');
   };
 
@@ -78,16 +124,21 @@ export default function TeaRecommendation() {
         {/* 차 정보 */}
         <div className="text-center mb-4">
           <p className="text-base text-main-300 font-semibold mb-1">
-            {selectedEmotion}한 오늘에는!
+            오늘에는!
           </p>
           <h1 className="text-2xl font-bold text-black mb-4">{currentTea}</h1>
 
-          {/* 태그 */}
+          {/* 맛 태그 - API에서 받은 taste 정보 또는 기본 태그 사용 */}
           <div className="flex justify-center gap-2 mb-4">
+            {teaTaste && (
+              <span className="px-4 py-2 bg-main-200 bg-opacity-50 rounded-full text-sm font-bold text-main-300">
+                {teaTaste}
+              </span>
+            )}
             {teaTags[currentTea]?.map((tag, index) => (
               <span
                 key={index}
-                className="px-4 py-2 bg-main-200 bg-opacity-50 rounded-full text-sm font-bold text-main-300"
+                className="px-4 py-2 bg-main-200 bg-opacity-50 rounded-full text-xs font-bold text-main-300"
               >
                 {tag}
               </span>
@@ -95,9 +146,9 @@ export default function TeaRecommendation() {
           </div>
         </div>
 
-        {/* 설명 */}
+        {/* 설명 - API에서 받은 description 사용 */}
         <div className="text-center text-sm text-black mb-6 flex-1 flex items-center justify-center">
-          <p>{teaDescriptions[currentTea]}</p>
+          <p>{teaDescription}</p>
         </div>
 
         {/* 곰 이미지 */}
