@@ -20,7 +20,7 @@ export default function ChallengeStatus() {
       id: 2,
       title: '기록 10번 해보기!',
       date: '2025-09-06',
-    },
+    }, 
     {
       id: 3,
       title: '차 탐험가! (5종류)',

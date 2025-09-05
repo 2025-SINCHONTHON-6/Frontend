@@ -34,7 +34,7 @@ function App() {
         <Route path="/record/status" element={<ChallengeStatus />} />
         <Route path="/recommend/moodpick" element={<MoodPick />} />
         <Route path="/recommend/result" element={<RecommendationResult />} />
-        {/* 페이지들 */}
+        {/* 페이지들 */} 
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
