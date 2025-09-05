@@ -1,11 +1,16 @@
 import "./index.css";
-import Test from "./components/test";
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "@/layouts/mainLayout";
+import Test from "@/pages/test";
 
 function App() {
   return (
-      <main className="mx-auto w-full max-w-[390px] bg-[#cdcdcd] px-4">
-        <Test />
-      </main>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Test />} />
+        {/* 페이지들 */}
+      </Route>
+    </Routes>
   );
 }
 
