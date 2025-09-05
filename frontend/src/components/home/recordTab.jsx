@@ -47,15 +47,15 @@ export default function RecordTab() {
   const missing = Math.max(0, PER_PAGE - items.length);
 
   return (
-    <div className="rounded-3xl bg-[#FFFDE3] p-5 mb-20">
+    <div className="rounded-3xl bg-[#FFFDE3] p-5">
       <div className="relative select-none" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       
-        <ul className="grid grid-cols-5 gap-x-6 gap-y-7 pb-5">
+        <ul className="grid grid-cols-5 pb-5 gap-x-6 gap-y-7">
           {items.map((item) => (
             <li key={item.id} className="flex flex-col items-center">
              
               <div
-                className="h-14 w-10 rounded-full shadow-inner"
+                className="w-10 rounded-full shadow-inner h-14"
                 style={{ backgroundColor: item.color }}
                 aria-label={formatLabelDate(item.date)}
                 title={formatLabelDate(item.date)}
@@ -71,19 +71,19 @@ export default function RecordTab() {
           {Array.from({ length: missing }).map((_, i) => (
             <li
               key={`ghost-${i}`}
-              className="pointer-events-none select-none opacity-0"
+              className="opacity-0 pointer-events-none select-none"
               aria-hidden="true"
             >
-              <div className="h-14 w-10 rounded-full" />
+              <div className="w-10 rounded-full h-14" />
               <span className="mt-2 block text-[10px]">0000.00.00</span>
             </li>
           ))}
         </ul>
 
         {/* 페이지 네비 */}
-        <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center justify-between mt-4">
           <button
-            className="rounded-xl border px-3 py-1 text-sm disabled:opacity-40"
+            className="px-3 py-1 text-sm border rounded-xl disabled:opacity-40"
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
           >
@@ -93,7 +93,7 @@ export default function RecordTab() {
             {page + 1} / {pages.length}
           </span>
           <button
-            className="rounded-xl border px-3 py-1 text-sm disabled:opacity-40"
+            className="px-3 py-1 text-sm border rounded-xl disabled:opacity-40"
             onClick={() => setPage((p) => Math.min(max, p + 1))}
             disabled={page === max}
           >
