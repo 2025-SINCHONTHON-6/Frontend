@@ -1,4 +1,4 @@
-export default function Recommend() {
+export default function RecommendTab() {
   return (
     <div className="flex flex-col justify-center bg-main-100 rounded-[30px] px-7 py-9">
         <div className="flex justify-start items-start text-[24px] font-normal"><p>오늘의 <strong>차추천</strong><br/>받으시겠어요?</p></div>
