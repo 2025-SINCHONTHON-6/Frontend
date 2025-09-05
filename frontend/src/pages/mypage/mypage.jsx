@@ -1,7 +1,9 @@
+import MyPage from "@/components/mypage/profile";
+
 export default function Mypage () {
     return (
         <div>
-            <p>dd</p>
+            <MyPage />
         </div>
     )
 }
