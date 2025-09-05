@@ -168,16 +168,13 @@ const MoodPick = () => {
 
         // 두 번째 API 호출
         const recommendation = await fetchTasteRecommendation(tasteId);
-        console.log(recommendation);
+        console.log('reco: ', recommendation);
 
         if (recommendation) {
           // 추천 결과와 함께 다음 페이지로 이동
           navigate('/recommend/result', {
             state: {
-              selectedEmotion,
-              selectedTaste,
               recommendation,
-              moodRecommendations, // tastes 배열이 저장됨
             },
           });
         }
