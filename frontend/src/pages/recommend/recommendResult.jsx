@@ -46,6 +46,7 @@ const teaTags = {
 
 export default function TeaRecommendation() {
   const [currentTea, setCurrentTea] = useState('우전'); // 추천받은 차
+  const [selectedEmotion] = useState('기쁨'); // 선택했던 감정
   const [isRetrying, setIsRetrying] = useState(false);
   const navigate = useNavigate();
 
@@ -77,7 +78,7 @@ export default function TeaRecommendation() {
         {/* 차 정보 */}
         <div className="text-center mb-4">
           <p className="text-base text-main-300 font-semibold mb-1">
-            오늘의 추천은
+            {selectedEmotion}한 오늘에는!
           </p>
           <h1 className="text-2xl font-bold text-black mb-4">{currentTea}</h1>
 
