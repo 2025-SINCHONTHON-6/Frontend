@@ -30,6 +30,7 @@ function App() {
         <Route path="recommend/moodpick" element={<MoodPick />} />
         <Route path="recommend/result" element={<RecommendationResult />} />
         <Route path="mypage" element={<Mypage />} />
+
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
