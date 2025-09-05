@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import teaDum from '../../../public/img/blackTea_1.jpg'
@@ -98,6 +99,16 @@ export default function RecordDetail() {
                 기록 보러가기
               </button>
         </div>
+=======
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+
+export default function RecordDetail() {
+  return (
+    <div className="min-h-[100dvh] w-auto bg-black flex justify-center">
+      <main className="relative w-full max-w-[390px] bg-white">
+        <Outlet />
+>>>>>>> ea6b1d0 (기록부분 수정 #3)
       </main>
     </div>
   );
